@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Packages list</title>
+  <script src="https://kit.fontawesome.com/80b6b65415.js" crossorigin="anonymous"></script>
+  <style>
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      margin: 20px;
+      background-color: #e5e9ec;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      color: #007bff;
+    }
+
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+      width: 74%;
+      float: left;
+    }
+
+    li {
+      background: #f5f5f5;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #000000;
+      padding-bottom: 5px;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    a {
+      color: #007bff;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    a:hover {
+      color: #0056b3;
+    }
+
+    .file-info {
+      font-size: 14px;
+      color: #777;
+    }
+
+    /* Optional: Add some box shadow to the list items */
+    li:hover {
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      background-color: #fff;
+      border-radius: 4px;
+    }
+
+    /* Styling for specific icon */
+    .fas {
+      font-size: 25px;
+      padding: 0;
+    }
+
+    .ziper {
+      color: royalblue;
+    }
+
+    .rar-icon {
+      color: #ff9900;
+    }
+
+    .efiles {
+      color: rgb(209, 0, 0);
+    }
+
+    /* Download button style */
+    .download-btn {
+      background-color: royalblue;
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .download-btn:hover {
+      background-color: #1b3ca8;
+    }
+    .infofu {
+      width: 22.5%;
+      height: 520px;
+      border-radius: 8px;
+      border: 1px solid #00000086;
+      float: right;
+      background: rgb(255, 255, 255);
+      padding: 15px;
+    }
+
+    .infofu h2 {
+      color: #007bff;
+      margin-bottom: 10px;
+    }
+
+    .infofu p {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    .infofu i {
+      font-size: 32px;
+      margin-right: 10px;
+    }
+
+    .infofu .usage {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .infofu .how-to-use {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 10px;
+    }
+    .search-bar {
+      width: 73.5%;
+      float: left;
+      margin-bottom: 20px;
+      padding: 8px;
+      border: 1px solid #616161;
+      border-radius: 4px;
+      background-color: #fff;
+      font-size: 16px;
+    }
+    #fileList {
+      margin-top: 0px;
+      width: 74%;
+    }
+  
+  </style>
+</head>
+<body><div class="topyy">
+  <h1>Files in Package Folder</h1>
+  <input type="text" class="search-bar" placeholder="Search files by name" id="searchBar">
+  </div>
+  <div class="infofu">
+    <h2>ℹ️ How to Use this Web App</h2>
+    <p>
+      📂 Upload your ZIP, JAR, or RAR files using the "Upload File" button below.
+      Once uploaded, the files will appear in the list on the left.
+    </p>
+    <p>
+      📄 Click on the file name to download the file to your device.
+    </p>
+    <p>
+    </p>
+    <div class="how-to-use">
+      <div class="usage">
+        <i class="fas fa-file-archive ziper"></i>
+        <div>ZIP files</div>
+      </div>
+      <div class="usage">
+        <i class="fas fa-file-archive rar-icon"></i>
+        <div>RAR files</div>
+      </div>
+      <div class="usage">
+        <i class="fas fa-file efiles"></i>
+        <div>Other supported files</div>
+      </div>
+    </div>
+  </div>
+  <ul id="fileList"></ul>
+
+  <script>
+  fetch('/files')
+    .then(response => response.json())
+    .then(data => {
+      const fileList = document.getElementById('fileList');
+      data.forEach(file => {
+        const listItem = document.createElement('li');
+        const link = document.createElement('a');
+        link.href = file.url;
+        link.textContent = file.name;
+
+        // Create an icon element based on the file extension
+        const icon = document.createElement('i');
+        if (file.name.endsWith('.zip')) {
+          icon.classList.add('fas', 'fa-file-archive', 'ziper');
+        } else if (file.name.endsWith('.rar')) {
+          icon.classList.add('fas', 'fa-file-archive', 'rar-icon');
+        } else {
+          icon.classList.add('fas', 'fa-file', 'efiles');
+        }
+
+        listItem.appendChild(icon);
+        listItem.appendChild(link);
+
+        const fileInfo = document.createElement('div');
+        fileInfo.classList.add('file-info');
+        fileInfo.textContent = `File Size: ${file.fileSize} bytes | Uploaded Date: ${file.uploadedDate}`;
+
+        // Developer Name information
+        const developerInfo = document.createElement('div');
+        developerInfo.classList.add('file-info');
+        developerInfo.textContent = `Developer: ${file.developerName || 'N/A'}`; // If developerName is not provided, show 'N/A'
+
+        listItem.appendChild(fileInfo);
+        listItem.appendChild(developerInfo);
+
+        // Download button
+        const downloadButton = document.createElement('button');
+        downloadButton.textContent = 'Download';
+        downloadButton.classList.add('download-btn');
+        downloadButton.addEventListener('click', () => {
+          // ... (existing download button code) ...
+        });
+
+        listItem.appendChild(downloadButton);
+
+        fileList.appendChild(listItem);
+      });
+    })
+    .catch(error => console.error('Error fetching files:', error));
+
+
+      const searchBar = document.getElementById('searchBar');
+    searchBar.addEventListener('input', () => {
+      const searchTerm = searchBar.value.toLowerCase();
+      const listItems = document.querySelectorAll('ul#fileList li');
+
+      listItems.forEach(item => {
+        const fileName = item.querySelector('a').textContent.toLowerCase();
+        if (fileName.includes(searchTerm)) {
+          item.style.display = 'flex';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

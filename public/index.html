@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>About This Website</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      margin: 20px;
+      background-color: #f8f9fa;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      color: #007bff;
+    }
+
+    p {
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+
+    .icon {
+      font-size: 24px;
+      margin-right: 10px;
+    }
+
+    .section {
+      margin-bottom: 40px;
+      padding: 20px;
+      border-radius: 8px;
+      background: #ffffff;
+      border-bottom: 1px dotted #000;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #007bff;
+      padding: 10px 20px;
+      border-radius: 8px;
+      color: #fff;
+    }
+
+    .navbar a {
+      color: #fff;
+      text-decoration: none;
+      margin-left: 20px;
+    }
+
+    .navbar a:hover {
+      text-decoration: underline;
+    }
+
+    .navbar .logo {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .navbar .nav-icons {
+      display: flex;
+      align-items: center;
+    }
+
+    .navbar .nav-icons .icon {
+      margin-left: 10px;
+    }
+
+    .main-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <div class="logo">File Manager</div>
+    <div class="nav-icons">
+      <a href="/" class="icon" title="Home"><i class="fas fa-home"></i></a>
+      <a href="/filelist.html" class="icon" title="packages list"><i class="fas fa-list"></i></a>
+      <a href="/uploadfile.html" class="icon" title="Upload File"><i class="fas fa-file-upload"></i></a>
+      <a href="/dashboard.html" class="icon" title="dashbord"><i class="fas fa-chart-line"></i></a>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <h1>About This Website</h1>
+
+    <div class="section">
+      <h2><i class="fas fa-info-circle icon"></i> About</h2>
+      <p>
+        Welcome to File Manager, a simple web application for managing and organizing your files.
+        With File Manager, you can upload ZIP, JAR, or RAR files, and they will be stored securely on our server.
+        You can also view the list of uploaded files and download them whenever you need.
+      </p>
+    </div>
+
+    <div class="section">
+      <h2><i class="fas fa-question-circle icon"></i> How to Use</h2>
+      <p>
+        <i class="fas fa-file-archive icon"></i> To upload a file, go to the "Upload File" page and choose a ZIP, JAR, or RAR file from your device.
+        Once uploaded, the file will be added to the list on the "Packages list".
+      </p>
+      <p>
+        <i class="fas fa-download icon"></i> To download a file, simply click on its name in the list on the "Packages list".
+        The file will be downloaded to your device, and you can use it as needed.
+      </p>
+    </div>
+
+    <div class="section">
+      <h2><i class="fas fa-chart-line icon"></i> Dashboard</h2>
+      <p>
+        The Dashboard page provides an overview of the file uploads on this platform. It includes three main graphs:
+      </p>
+      <ul>
+        <li>
+          <strong>Top 10 Developers - Number of Uploads:</strong> This bar chart displays the top 10 developers who have uploaded the most files. It shows the number of uploads by each developer.
+        </li>
+        <li>
+          <strong>File Types - Upload Count:</strong> This pie chart shows the distribution of different file types uploaded to the platform and the respective upload counts for each file type.
+        </li>
+        <li>
+          <strong>Total File Uploads per Month:</strong> This line chart displays the total number of file uploads on a monthly basis, giving insights into the upload trends over time.
+        </li>
+      </ul>
+      <p>
+        The Dashboard page is designed to provide valuable insights into the usage of this platform and to help users track the popularity of different file types and the contributions of various developers.
+      </p>
+    </div>
+
+    <div class="section">
+      <h2><i class="fas fa-smile-wink icon"></i> Have Fun!</h2>
+      <p>
+        We hope you enjoy using File Manager! If you have any questions or feedback, feel free to contact us.
+        Thank you for using our service!
+      </p>
+    </div>
+  </div>
+
+  <footer style="text-align: center; margin-top: 30px; color: #777;">
+    &copy; 2023 File Manager. All rights reserved.
+  </footer>
+  
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyBCQjyi3tpsEsO1ELDBmfrR9USz2Dj8y0Q",
+      authDomain: "adlitosm.firebaseapp.com",
+      projectId: "adlitosm",
+      storageBucket: "adlitosm.appspot.com",
+      messagingSenderId: "398951389843",
+      appId: "1:398951389843:web:40f04397ae7dac0a690b66",
+      measurementId: "G-N5ZW1SQ911"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Document Information</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      margin: 20px;
+      background-color: #1d1d1d;
+      color: #fff;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    form {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    input[type="text"] {
+      margin-bottom: 15px;
+      padding: 8px;
+      border: 1px solid #d3d3d3;
+      border-radius: 4px;
+      background-color: #fff;
+    }
+
+    input[type="text"]:focus {
+      outline: none;
+      border-color: #007bff;
+    }
+
+    button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Styling for the file information */
+    #fileInfo {
+      margin-top: 30px;
+      padding: 15px;
+      border-radius: 4px;
+      background-color: #2d2d2d;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    #fileInfo p {
+      margin-bottom: 10px;
+    }
+    a{
+      text-decoration: none;
+      background-color: royalblue;
+      color: #fff;
+      border: none;
+      margin-left: 5px;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    a:hover {
+      background-color: #1b3ca8;
+    }
+  </style>
+</head>
+<body>
+  <h1>Document Information</h1>
+  <form id="fileForm">
+    <input type="text" id="fileNameInput" placeholder="Enter File Name" />
+    <button type="submit">Get Information</button>
+  </form>
+
+  <div id="fileInfo"></div>
+
+  <script>
+    const fileForm = document.getElementById('fileForm');
+    const fileNameInput = document.getElementById('fileNameInput');
+    const fileInfoContainer = document.getElementById('fileInfo');
+
+    fileForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const fileName = fileNameInput.value.trim();
+
+      // Fetch file information from the server
+      fetch(`/fileinfo/${encodeURIComponent(fileName)}`)
+        .then(response => response.json())
+        .then(data => {
+          // Clear previous file information
+          fileInfoContainer.innerHTML = '';
+
+          if (data.error) {
+            // Display error message if file not found
+            const errorMessage = document.createElement('p');
+            errorMessage.textContent = data.error;
+            fileInfoContainer.appendChild(errorMessage);
+          } else {
+            // Display file information
+            const fileInfo = document.createElement('div');
+
+            const nameInfo = document.createElement('p');
+            nameInfo.textContent = `File Name: ${data.fileName}`;
+            fileInfo.appendChild(nameInfo);
+
+            const urlInfop = document.createElement('p');
+            urlInfop.textContent =`File URL:`
+              const urlInfo = document.createElement('a');
+              urlInfo.href = `${data.url}`;
+              urlInfo.textContent =`download`
+              urlInfop.appendChild(urlInfo);
+              fileInfo.appendChild(urlInfop);
+
+            const fileSizeInfo = document.createElement('p');
+            fileSizeInfo.textContent = `File Size: ${data.fileSize} bytes`;
+            fileInfo.appendChild(fileSizeInfo);
+
+            const uploadedDateInfo = document.createElement('p');
+            uploadedDateInfo.textContent = `Uploaded Date: ${data.uploadedDate}`;
+            fileInfo.appendChild(uploadedDateInfo);
+
+            const developerNameInfo = document.createElement('p');
+            developerNameInfo.textContent = `Developer Name: ${data.developerName}`;
+            fileInfo.appendChild(developerNameInfo);
+
+            const aboutInfo = document.createElement('p');
+            aboutInfo.textContent = `About: ${data.about}`;
+            fileInfo.appendChild(aboutInfo);
+
+            fileInfoContainer.appendChild(fileInfo);
+          }
+        })
+        .catch(error => console.error('Error fetching file information:', error));
+    });
+  </script>
+</body>
+</html>

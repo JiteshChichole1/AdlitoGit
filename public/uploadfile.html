@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Upload File</title>
+  <style>
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      margin: 20px;
+      background-color: #f8f9fa;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      color: #007bff;
+    }
+
+    
+    input[type="file"] {
+      margin-bottom: 15px;
+      padding: 8px;
+      border: 1px solid #d3d3d3;
+      border-radius: 4px;
+      background-color: #fff;
+    }
+
+    input[type="text"] {
+      margin-bottom: 15px;
+      padding: 8px;
+      border: 1px solid #d3d3d3;
+      border-radius: 4px;
+      background-color: #fff;
+    }
+
+    input[type="file"]:focus, input[type="text"]:focus {
+      outline: none;
+      border-color: #007bff;
+    }
+
+    button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+    
+    form {
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      border-radius: 4px;
+      background-color: #fff;
+    }
+    textarea {
+      margin-bottom: 15px;
+      padding: 8px;
+      border: 1px solid #d3d3d3;
+      border-radius: 4px;
+      background-color: #fff;
+      resize: vertical;
+      height: 150px;
+    }
+    .rules-section {
+      margin-top: 20px;
+      width: 35%;
+      float: right;
+      border-radius: 4px;
+      padding: 10px;
+      border: 1px dotted #6d6d6d;
+      border-radius: 4px;
+      background-color: #f8f9fa;
+    }
+    .sdsdd{
+      width: 100%;
+    }
+    .formdd{
+      float: left;
+      width: 63%;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>Upload File</h1>
+  <div class="sdsdd">
+  <div class="formdd">
+  <form action="/upload" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" accept=".zip,.rar" required/>
+    <input type="text" name="uploadfilename" placeholder="Upload File Name" required />
+    <input type="text" name="developername" placeholder="Developer Name" required/>
+    <textarea name="about" placeholder="About the File" required></textarea>
+    <button type="submit">Upload</button>
+  </form>
+  </div>
+   <!-- Rules and Terms Section -->
+   <div class="rules-section">
+    <h2>Rules:</h2>
+    <p>
+      1. Only upload ZIP or RAR files.
+    </p>
+    <p>
+      2. The file name should be unique and meaningful.
+    </p>
+    <p>
+      3. Provide accurate information about the file.
+    </p>
+    <p>
+      4. By uploading the file, you agree to the terms and conditions of this website.
+    </p>
+    <p>
+      5. Inappropriate or illegal files will be removed without notice.
+    </p>
+    
+  </div>
+</div>
+</body>
+</html>

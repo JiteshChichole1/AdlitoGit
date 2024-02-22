@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>File Upload Dashboard</title>
+  <script src="https://kit.fontawesome.com/80b6b65415.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      margin: 20px;
+      background-color: #f8f9fa;
+    }
+
+    h1 {
+      color: #007bff;
+      text-align: center;
+    }
+
+    .chart-container {
+      width: 80%;
+      margin: auto;
+    }
+
+    .chart-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .graph-section {
+      margin-bottom: 30px;
+      width: 100%;
+    }
+
+    .graph-section1 {      
+      border-top: 1px solid #000;
+      margin-bottom: 30px;
+      padding: 10px 20px;}
+
+    .graph-section1 .chart-container {
+      width: 38%;
+      display:inline-block;
+      height: 400px;
+      padding: 10px 20px;
+    }
+    .btr{
+      border-right: 1px solid #000;
+    }
+    .chart-container2{
+      width: 55%;
+      display:inline-block;
+      height: 400px;
+      padding: 10px 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>File Upload Dashboard</h1>
+
+  <!-- Graph Section - Top 10 Developers -->
+  <div class="graph-section">
+    <div class="chart-title">Top 10 Developers - Number of Uploads</div>
+    <div class="chart-container">
+      <canvas id="developerChart"></canvas>
+    </div>
+  </div>
+
+    <!-- Graph Section - File Types and Total File Uploads per Month -->
+  <div class="graph-section1">
+    <div class="chart-container btr">
+      <div class="chart-title">File Types - Upload Count</div>
+      <canvas id="fileTypeChart"></canvas>
+    </div>
+    <div class="chart-container2">
+      <div class="chart-title">Total File Uploads per Month</div>
+      <canvas id="monthlyUploadChart"></canvas>
+    </div>
+  </div>
+
+  <script>
+    fetch('/database')
+      .then(response => response.json())
+      .then(data => {
+        const developerCounts = {};
+        const fileTypeCounts = {};
+        const monthlyUploadCounts = {};
+
+        data.forEach(file => {
+          // Count number of uploads per developer
+          const developerName = file.developerName;
+          if (developerName in developerCounts) {
+            developerCounts[developerName]++;
+          } else {
+            developerCounts[developerName] = 1;
+          }
+
+          // Count number of uploads per file type
+          const fileType = file.fileName.split('.').pop().toUpperCase();
+          if (fileType in fileTypeCounts) {
+            fileTypeCounts[fileType]++;
+          } else {
+            fileTypeCounts[fileType] = 1;
+          }
+
+          // Count total uploads per month
+          const uploadMonth = new Date(file.uploadedDate).toLocaleString('en-us', { month: 'short' });
+          if (uploadMonth in monthlyUploadCounts) {
+            monthlyUploadCounts[uploadMonth]++;
+          } else {
+            monthlyUploadCounts[uploadMonth] = 1;
+          }
+        });
+
+        // Sort the developers based on the number of uploads
+        const sortedDevelopers = Object.keys(developerCounts).sort((a, b) => developerCounts[b] - developerCounts[a]);
+
+        const topDevelopers = sortedDevelopers.slice(0, 10);
+        const uploadCounts = topDevelopers.map(developer => developerCounts[developer]);
+
+        // Create the developer chart
+        const developerCtx = document.getElementById('developerChart').getContext('2d');
+        new Chart(developerCtx, {
+          type: 'bar',
+          data: {
+            labels: topDevelopers,
+            datasets: [{
+              label: 'Number of Uploads',
+              data: uploadCounts,
+              backgroundColor: 'rgba(54, 162, 235, 0.8)',
+              borderColor: 'rgba(54, 162, 235, 1)',
+              borderWidth: 1
+            }]
+          },
+          options: {
+            responsive: true,
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+
+        // Create the file type chart
+        const fileTypes = Object.keys(fileTypeCounts);
+        const fileTypeData = Object.values(fileTypeCounts);
+
+        const fileTypeCtx = document.getElementById('fileTypeChart').getContext('2d');
+        new Chart(fileTypeCtx, {
+          type: 'pie',
+          data: {
+            labels: fileTypes,
+            datasets: [{
+              data: fileTypeData,
+              backgroundColor: ['rgba(75, 192, 192, 0.8)', 'rgba(255, 99, 132, 0.8)', 'rgba(255, 205, 86, 0.8)'],
+              borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)', 'rgba(255, 205, 86, 1)'],
+              borderWidth: 1
+            }]
+          },
+          options: {
+            responsive: true,
+          }
+        });
+
+        // Create the monthly upload chart
+        const months = Object.keys(monthlyUploadCounts);
+        const monthlyUploadData = Object.values(monthlyUploadCounts);
+
+        const monthlyUploadCtx = document.getElementById('monthlyUploadChart').getContext('2d');
+        new Chart(monthlyUploadCtx, {
+          type: 'line',
+          data: {
+            labels: months,
+            datasets: [{
+              label: 'Total Uploads',
+              data: monthlyUploadData,
+              backgroundColor: 'rgba(75, 192, 192, 0.8)',
+              borderColor: 'rgba(75, 192, 192, 1)',
+              borderWidth: 1
+            }]
+          },
+          options: {
+            responsive: true,
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  </script>
+</body>
+</html>
